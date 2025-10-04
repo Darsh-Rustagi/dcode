@@ -1,7 +1,9 @@
 
+import Chatbot from "./component/Chatbot";
 import Footer from "./footer/footer";
 import "./globals.css";
 import Navbar from "./navbar/navbar";
+
 
 
 
@@ -17,9 +19,10 @@ export default function RootLayout({ children }) {
         className=""
       >
         <Navbar></Navbar>
-        <div className="mt-12">
+        
         {children}
-        </div>
+        
+        
         <Footer></Footer>
       </body>
     </html>

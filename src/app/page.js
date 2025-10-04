@@ -1,16 +1,53 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, Menu, X } from 'lucide-react';
 
-// --- Mock Data (from your code) ---
+// --- Updated Mock Data for Tabbed Interface ---
 const mentors = [
-    { name: 'Dr. Evelyn Reed', subject: 'Quantum Physics', imageUrl: 'https://placehold.co/400x400/f59e0b/000000?text=ER' },
-    { name: 'Marcus Vance', subject: 'Ancient History', imageUrl: 'https://placehold.co/400x400/f59e0b/000000?text=MV' },
-    { name: 'Dr. Aliza Sharma', subject: 'Neuroscience', imageUrl: 'https://placehold.co/400x400/f59e0b/000000?text=AS' },
-    { name: 'Kenji Tanaka', subject: 'AI & Robotics', imageUrl: 'https://placehold.co/400x400/f59e0b/000000?text=KT' },
-    { name: 'Sofia Rossi', subject: 'Classical Art', imageUrl: 'https://placehold.co/400x400/f59e0b/000000?text=SR' },
+    { 
+        name: 'Dr. Evelyn Reed', 
+        role: 'Quantum Physicist', 
+        description: 'Pioneering research in quantum entanglement.',
+        imageUrl: 'https://placehold.co/600x400/f59e0b/000000?text=ER',
+        category: 'Science'
+    },
+    { 
+        name: 'Marcus Vance', 
+        role: 'Historian & Author', 
+        description: 'Specializes in ancient civilizations and their impact.',
+        imageUrl: 'https://placehold.co/600x400/4ade80/000000?text=MV',
+        category: 'Humanities'
+    },
+    { 
+        name: 'Dr. Aliza Sharma', 
+        role: 'Neuroscientist', 
+        description: 'Exploring the complexities of the human brain.',
+        imageUrl: 'https://placehold.co/600x400/60a5fa/000000?text=AS',
+        category: 'Science'
+    },
+    { 
+        name: 'Kenji Tanaka', 
+        role: 'AI & Robotics', 
+        description: 'Building the next generation of intelligent systems.',
+        imageUrl: 'https://placehold.co/600x400/f472b6/000000?text=KT',
+        category: 'Technology'
+    },
+    { 
+        name: 'Sofia Rossi', 
+        role: 'Classical Art', 
+        description: 'Curating and preserving the masterpieces of history.',
+        imageUrl: 'https://placehold.co/600x400/fb923c/000000?text=SR',
+        category: 'Arts'
+    },
+    { 
+        name: 'Ben Carter', 
+        role: 'Web Performance', 
+        description: 'Making the web faster and more accessible for everyone.',
+        imageUrl: 'https://placehold.co/600x400/34d399/000000?text=BC',
+        category: 'Technology'
+    },
 ];
 
 const reviews = [
@@ -62,7 +99,7 @@ const HeroIllustration = () => (
 );
 
 
-// --- Reusable Carousel Component (from your code, restyled) ---
+// --- Reusable Carousel Component ---
 const Carousel = ({ items, renderCard }) => {
     const [[page, direction], setPage] = useState([0, 0]);
 
@@ -105,17 +142,34 @@ const Carousel = ({ items, renderCard }) => {
     );
 };
 
-
-
 // --- Main Page Component ---
 export default function HomePage() {
-
-    const MentorCard = (mentor) => (
-        <div className="text-center p-4">
-            <img src={mentor.imageUrl} alt={mentor.name} className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-black object-cover shadow-lg"/>
-            <h3 className="text-xl font-bold text-zinc-900">{mentor.name}</h3>
-            <p className="text-zinc-600">{mentor.subject}</p>
-        </div>
+    const MentorCard = ({ name, role, description, imageUrl }) => (
+        <motion.div 
+            className="bg-white/90 rounded-2xl border border-zinc-200/80 shadow-soft-amber overflow-hidden group"
+            variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+            }}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            layout
+            whileHover={{ y: -8, scale: 1.03, shadow: "0 20px 25px -5px rgba(212, 170, 10, 0.2), 0 10px 10px -5px rgba(212, 170, 10, 0.1)" }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+        >
+            <div className="overflow-hidden h-48">
+                <img src={imageUrl} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            </div>
+            <div className="p-5">
+                <h3 className="text-xl font-bold text-zinc-900 truncate">{name}</h3>
+                <p className="text-amber-700 font-semibold text-sm mb-2">{role}</p>
+                <p className="text-zinc-600 text-sm mb-4 h-10">{description}</p>
+                <a href="/mentors" className="font-bold text-zinc-800 hover:text-black transition-colors">
+                    Discover More &rarr;
+                </a>
+            </div>
+        </motion.div>
     );
 
     const ReviewCard = (review) => (
@@ -127,47 +181,54 @@ export default function HomePage() {
             <h4 className="font-bold text-zinc-900">- {review.name}</h4>
         </div>
     );
+    
+    // Mentor tab logic
+    const tabs = ['All', 'Science', 'Technology', 'Arts', 'Humanities'];
+    const [activeTab, setActiveTab] = useState(tabs[0]);
+
+    const filteredMentors = mentors.filter(mentor => 
+        activeTab === 'All' ? true : mentor.category === activeTab
+    );
 
     return (
         <div className="bg-amber-100 text-zinc-900 font-sans">
-            
-            
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center pt-24 pb-12 lg:pt-0 lg:pb-0">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="text-center lg:text-left">
+                        <motion.div 
+                            className="text-center lg:text-left"
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                visible: { transition: { staggerChildren: 0.15 } }
+                            }}
+                        >
                             <motion.h1 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7 }}
                                 className="text-5xl md:text-7xl font-extrabold text-zinc-900 leading-tight"
+                                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } }}}
                             >
                                 Improve your <span className="relative inline-block px-4 py-1 text-white bg-black rounded-full">Skills</span> Faster
                             </motion.h1>
                             <motion.p 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.2 }}
                                 className="mt-6 text-lg text-zinc-700 max-w-md mx-auto lg:mx-0"
+                                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } }}}
                             >
                                 Speed Up The Skill Acquisition Process By Finding Unlimited Courses That Matches Your Niche.
                             </motion.p>
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.4 }}
                                 className="mt-8"
+                                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } }}}
                             >
                                 <button className="border-2 border-zinc-900 text-zinc-900 font-bold px-8 py-3 rounded-lg hover:bg-zinc-900 hover:text-white transition-all duration-300 transform hover:scale-105">
                                     Enroll Now &rarr;
                                 </button>
                             </motion.div>
-                        </div>
+                        </motion.div>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
+                            transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <HeroIllustration />
                         </motion.div>
@@ -179,17 +240,47 @@ export default function HomePage() {
             <section className="py-20">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div 
+                        className="text-center"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.5 }}
                         transition={{ duration: 0.5 }}
-                        className="text-center"
                     >
                         <h2 className="text-4xl font-bold text-zinc-900 mb-2">Meet Our Mentors</h2>
                         <p className="text-zinc-600 mb-12">Experts dedicated to your growth.</p>
                     </motion.div>
-                    <div className="max-w-lg mx-auto h-72 relative">
-                       <Carousel items={mentors} renderCard={MentorCard} />
+                    
+                    <div className="flex justify-center mb-12 border-b border-zinc-300">
+                        {tabs.map(tab => (
+                            <button
+                                key={tab}
+                                onClick={() => setActiveTab(tab)}
+                                className={`relative px-4 py-3 text-sm md:text-base font-semibold transition-colors ${activeTab === tab ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800'}`}
+                            >
+                                {tab}
+                                {activeTab === tab && (
+                                    <motion.div 
+                                        className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-zinc-900" 
+                                        layoutId="underline"
+                                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                                    />
+                                )}
+                            </button>
+                        ))}
+                    </div>
+
+                    <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[380px]">
+                        <AnimatePresence mode="popLayout">
+                            {filteredMentors.map((mentor) => (
+                                <MentorCard key={mentor.name} {...mentor} />
+                            ))}
+                        </AnimatePresence>
+                    </motion.div>
+
+                    <div className="text-center mt-12">
+                        <a href="/mentors" className="bg-zinc-900 text-white font-bold px-8 py-3 rounded-lg hover:bg-zinc-800 transition-colors inline-block transform hover:scale-105">
+                            View All Mentors
+                        </a>
                     </div>
                 </div>
             </section>
@@ -198,11 +289,11 @@ export default function HomePage() {
             <section className="py-20 bg-amber-200/50">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                      <motion.div 
+                        className="text-center"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.5 }}
                         transition={{ duration: 0.5 }}
-                        className="text-center"
                     >
                         <h2 className="text-4xl font-bold text-zinc-900 mb-2">What Our Students Say</h2>
                         <p className="text-zinc-600 mb-12">Success stories from our community.</p>
@@ -210,6 +301,31 @@ export default function HomePage() {
                     <div className="max-w-3xl mx-auto h-64 relative">
                         <Carousel items={reviews} renderCard={ReviewCard} />
                     </div>
+                </div>
+            </section>
+
+            {/* Join Us Section */}
+            <section className="py-20">
+                <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-zinc-900 mb-4">
+                            Ready to Start Your Journey?
+                        </h2>
+                        <p className="text-lg text-zinc-700 max-w-2xl mx-auto mb-8">
+                            Become part of a thriving community of learners and experts. Your path to mastery starts here.
+                        </p>
+                        <a 
+                            href="/join" 
+                            className="bg-zinc-900 text-white font-bold text-lg px-10 py-4 rounded-lg hover:bg-zinc-800 transition-all duration-300 inline-block transform hover:scale-105 shadow-lg"
+                        >
+                            Join Us Now
+                        </a>
+                    </motion.div>
                 </div>
             </section>
         </div>

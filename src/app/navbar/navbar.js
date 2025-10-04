@@ -1,104 +1,95 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isDropdownOpen, setDropdownOpen] = useState(null);
 
-  // A simple SVG icon to act as a logo for the brand
-  const BrandIcon = () => (
-    <svg className="h-8 w-auto text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.197-5.92M9 21a6 6 0 01-6-6v-1a6 6 0 016-6v12z" />
-    </svg>
-  );
+    const navItems = [
+        { name: 'About', href: '/about' },
+        { name: 'Mentors', href: '/mentors' },
+        { name: 'Pricing', href: '/pricing' },
+        { name: 'Contact', href: '/contact' },
+    ];
 
-  return (
-    <nav className="bg-black shadow-xl fixed w-full top-0 z-50 border-b border-amber-900/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left Section: Brand/Name with Icon */}
-          <div className="flex items-center space-x-3">
-            
-            <a href="/" className="text-amber-400 text-2xl font-bold tracking-wider hidden sm:block">
-              Mentora
-            </a>
-          </div>
+    const dropdownVariants = {
+        enter: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.2, ease: 'easeOut' } },
+        exit: { opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.15, ease: 'easeIn' } },
+    };
 
-          {/* Center Section: Navigation Links (hidden on mobile) */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <a href="/about" className="text-gray-400 hover:text-amber-400  px-3 py-2 rounded-md text-sm font-medium">
-                About
-              </a>
-              <a href="/mentors" className="text-gray-400 hover:text-amber-400 transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">
-                Mentors
-              </a>
-              <a href="/pricing" className="text-gray-400 hover:text-amber-400 transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">
-                Pricing
-              </a>
-              <a href="/contact" className="text-gray-400 hover:text-amber-400 transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">
-                Contact
-              </a>
-            </div>
-          </div>
+    return (
+        <>
+            {/* --- Desktop Navbar --- */}
+            <header className="hidden md:block fixed top-4 left-0 w-full z-50">
+                <div 
+                    className="container mx-auto max-w-3xl p-2 flex items-center justify-between bg-amber-100/80 backdrop-blur-md border border-amber-200/80 rounded-2xl shadow-lg"
+                >
+                    {/* Brand Logo */}
+                    <a href="/" className="flex items-center gap-2 pl-2 pr-4 flex-shrink-0">
+                        <div className="text-xl font-bold bg-zinc-900 text-white rounded-full w-9 h-9 flex items-center justify-center">M</div>
+                        <span className="text-xl font-bold text-zinc-900">Mentora</span>
+                    </a>
+                    
+                    <div className="flex items-center gap-4">
+                        {/* Navigation */}
+                        <nav className="flex items-center gap-2 bg-amber-50/50 p-1 rounded-xl border border-amber-200/50">
+                            {navItems.map(item => (
+                                 <a 
+                                    key={item.name} 
+                                    href={item.href} 
+                                    className="text-zinc-800 hover:bg-zinc-800 hover:text-white transition-colors px-4 py-2 rounded-lg text-sm"
+                                >
+                                    {item.name}
+                                </a>
+                            ))}
+                        </nav>
 
-          {/* Right Section: Login Button (hidden on mobile) */}
-          <div className="hidden md:block">
-            <button className="bg-gradient-to-r from-amber-500 to-yellow-600 text-black hover:from-amber-600 hover:to-yellow-700 px-4 py-2 rounded-md text-sm font-bold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-amber-500/10">
-              Login
-            </button>
-          </div>
+                        {/* Action Button */}
+                        <a href="/authentication" className="bg-zinc-900 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-zinc-800 transition-colors text-sm">
+                            Login / Sign Up
+                        </a>
+                    </div>
+                </div>
+            </header>
 
-          {/* Mobile Menu Button */}
-          <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-amber-400 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-amber-500"
-              aria-controls="mobile-menu"
-              aria-expanded={isOpen}
-            >
-              <span className="sr-only">Open main menu</span>
-              {!isOpen ? (
-                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              ) : (
-                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu, show/hide with a smooth transition */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`} id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black">
-          <a href="/about" className="text-amber-400 block px-3 py-2 rounded-md text-base font-medium">
-            About
-          </a>
-          <a href="/mentors" className="text-gray-400 hover:bg-gray-800 hover:text-amber-400 block px-3 py-2 rounded-md text-base font-medium">
-            Mentors
-          </a>
-          <a href="/services" className="text-gray-400 hover:bg-gray-800 hover:text-amber-400 block px-3 py-2 rounded-md text-base font-medium">
-            Services
-          </a>
-          <a href="/contact" className="text-gray-400 hover:bg-gray-800 hover:text-amber-400 block px-3 py-2 rounded-md text-base font-medium">
-            Contact
-          </a>
-        </div>
-        <div className="px-2 py-3 bg-black">
-          <button className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-black hover:from-amber-600 hover:to-yellow-700 px-4 py-2 rounded-md text-base font-bold transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Login
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
+            {/* --- Mobile Navbar --- */}
+            <header className="md:hidden fixed top-0 left-0 w-full z-50 bg-amber-100/80 backdrop-blur-md border-b border-amber-200/80">
+                <div className="container mx-auto flex justify-between items-center p-4">
+                    <a href="/" className="flex items-center gap-2">
+                        <div className="text-xl font-bold bg-zinc-900 text-white rounded-full w-9 h-9 flex items-center justify-center">M</div>
+                        <span className="text-xl font-bold text-zinc-900">Mentora</span>
+                    </a>
+                    <button onClick={() => setIsOpen(!isOpen)} className="text-zinc-900 p-2 rounded-md hover:bg-amber-200/50">
+                        <span className="sr-only">Open menu</span>
+                        {isOpen ? <X /> : <Menu />}
+                    </button>
+                </div>
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="overflow-hidden"
+                        >
+                            <nav className="flex flex-col gap-2 p-4 pt-0">
+                                {navItems.map(item => <a key={item.name} href={item.href} className="text-zinc-900 w-full text-left p-3 rounded-lg hover:bg-amber-200/50">{item.name}</a>)}
+                                <div className="border-t border-amber-200 mt-2 pt-4">
+                                    <a href="/authentication" className="bg-zinc-900 text-white font-semibold py-3 rounded-lg w-full text-center block">
+                                        Login / Sign Up
+                                    </a>
+                                </div>
+                            </nav>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </header>
+        </>
+    );
 };
 
 export default Navbar;
-
-
