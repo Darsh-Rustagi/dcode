@@ -101,11 +101,11 @@ export default function PricingPage() {
 
   return (
     <main className="bg-amber-100 min-h-screen text-zinc-900 font-sans p-8">
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-6xl pt-20">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-            Find Your Perfect Mentor
+            Find Your Budget Fit
           </h1>
           <p className="text-lg md:text-xl text-zinc-700 max-w-2xl mx-auto">
             Unlock your potential with our flexible plans. Choose the one that fits your growth ambitions.

@@ -114,14 +114,14 @@ export default function AuthPage() {
               onClick={() => handleSocialLogin('google')} 
               className="flex items-center justify-center gap-2 w-full py-3 px-4 border border-zinc-300 rounded-lg hover:bg-zinc-100 transition-colors"
             >
-              <GoogleIcon />
+              
               <span className="font-semibold text-zinc-800">Google</span>
             </button>
             <button 
               onClick={() => handleSocialLogin('github')} 
               className="flex items-center justify-center gap-2 w-full py-3 px-4 border border-zinc-300 rounded-lg hover:bg-zinc-100 transition-colors"
             >
-              <GithubIcon />
+              
               <span className="font-semibold text-zinc-800">GitHub</span>
             </button>
           </div>

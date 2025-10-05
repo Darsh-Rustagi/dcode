@@ -28,11 +28,9 @@ const Footer = () => {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8 xl:col-span-1">
              <div className="flex items-center space-x-3">
-                <a href="/" className="flex-shrink-0">
-                    <BrandIcon />
-                </a>
+                
                 <a href="/" className="text-amber-400 text-2xl font-bold tracking-wider">
-                  BrandName
+                  Mentora
                 </a>
               </div>
             <p className="text-gray-400 text-base">
@@ -49,47 +47,19 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold text-amber-500 tracking-wider uppercase">Solutions</h3>
-                <ul className="mt-4 space-y-4">
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Marketing</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Analytics</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Commerce</a></li>
+          {/* --- MODIFIED LINKS SECTION --- */}
+          <div className="mt-12 xl:mt-0 xl:col-span-2">
+            <div className="md:flex md:items-center md:justify-end">
+                <ul className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-8">
+                  <li><a href="/about" className="text-base text-gray-400 hover:text-amber-400">About</a></li>
+                  <li><a href="/mentors" className="text-base text-gray-400 hover:text-amber-400">Mentors</a></li>
+                  <li><a href="/pricing" className="text-base text-gray-400 hover:text-amber-400">Pricing</a></li>
                 </ul>
-              </div>
-              <div className="mt-12 md:mt-0">
-                <h3 className="text-sm font-semibold text-amber-500 tracking-wider uppercase">Support</h3>
-                <ul className="mt-4 space-y-4">
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Pricing</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Docs</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Guides</a></li>
-                </ul>
-              </div>
-            </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold text-amber-500 tracking-wider uppercase">Company</h3>
-                <ul className="mt-4 space-y-4">
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">About</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Blog</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Jobs</a></li>
-                </ul>
-              </div>
-              <div className="mt-12 md:mt-0">
-                <h3 className="text-sm font-semibold text-amber-500 tracking-wider uppercase">Legal</h3>
-                <ul className="mt-4 space-y-4">
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Claim</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Privacy</a></li>
-                  <li><a href="#" className="text-base text-gray-400 hover:text-amber-400">Terms</a></li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
         <div className="mt-12 border-t border-gray-800 pt-8">
-          <p className="text-base text-gray-400 text-center">&copy; 2024 BrandName, Inc. All rights reserved.</p>
+          <p className="text-base text-gray-400 text-center">&copy; 2025 Mentora, Inc. All rights reserved.</p>
         </div>
       </div>
     </footer>

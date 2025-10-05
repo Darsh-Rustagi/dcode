@@ -102,7 +102,7 @@ export default function MentorsPage() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-zinc-900">
+          <h1 className="text-4xl pt-12 md:text-6xl font-extrabold tracking-tight mb-4 text-zinc-900">
             Meet Our World-Class Mentors
           </h1>
           <p className="text-lg md:text-xl text-zinc-700 max-w-3xl mx-auto">
